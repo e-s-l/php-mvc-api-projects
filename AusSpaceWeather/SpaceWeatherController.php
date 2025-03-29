@@ -1,23 +1,19 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 'On');
-
 require_once 'SpaceWeatherModel.php';
 
 class SpaceWeatherController {
     private $model;
-
-    const VALID_LOCATIONS = [
-        "Sydney", "Melbourne", "Perth", "Hobart", "Darwin", "Canberra", 
-        "Macquarie Island", "Casey", "Mawson", "Australian region"
-    ];
 
     public function __construct($apiKey) {
         $this->model = new SpaceWeatherModel($apiKey);
     }
 
     public function handleRequest() {
+
+        $validLocations = $this->model->getLocations();
+        $indices = $this->model->getIndices();
+        $alerts = $this->model->getAlerts();
 
         if (isset($_GET['date'])) {
             $date = $_GET['date'];
@@ -33,7 +29,7 @@ class SpaceWeatherController {
 
         if (isset($_GET['location'])) {
             $location = $_GET['location'];
-            if (!in_array($location, SpaceWeatherController::VALID_LOCATIONS)) {
+            if (!in_array($location, $validLocations)) {
                 $location = "Australian region";
             }
         } else {

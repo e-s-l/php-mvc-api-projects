@@ -1,15 +1,16 @@
 <?php
-    if ($DEBUG) {
-        error_reporting(E_ALL);
-        ini_set('display_errors', 'On');
-    }
 
-    require_once __DIR__ .'/config.php';
+if ($DEBUG) {
+    error_reporting(E_ALL);
+    ini_set('display_errors', 'On');
+}
 
-    require_once __DIR__ .'/SpaceWeatherController.php';
+require_once __DIR__ .'/config.php';
 
-    $controller = new SpaceWeatherController($BOM_KEY);
+require_once __DIR__ .'/SpaceWeatherController.php';
 
-    $controller->handleRequest();
+$controller = new SpaceWeatherController($BOM_KEY);
+
+$controller->handleRequest();
 
 ?>

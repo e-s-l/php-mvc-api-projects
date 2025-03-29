@@ -1,12 +1,51 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 'On');
-
 class SpaceWeatherModel {
 
     private $apiKey;
     private $endPointRoot;
+
+    const VALID_LOCATIONS = [
+        "Sydney", "Melbourne", "Perth", "Hobart", "Darwin", "Canberra", 
+        "Macquarie Island", "Casey", "Mawson", "Australian region"
+    ];
+
+    const ALERTS = [
+        "auroraAlert" => [
+            "label" => "Aurora Alert",
+            "info" => "An aurora alert..."
+        ],
+        "auroraOutlook" => [
+            "label" => "Aurora Outlook",
+            "info" => "An aurora outlook.."
+        ],
+        "auroraWatch" => [
+            "label" => "Aurora Watch",
+            "info" => "An aurora watch..."
+        ],
+        "magAlert" => [
+            "label" => "Mag Alert",
+            "info" => "A geomagnetic alert..."
+        ],
+        "magWarning" => [
+            "label" => "Mag Warning",
+            "info" => "A geomagnetic warning..."
+        ]
+    ];
+
+    const INDICES = [
+        "kIndex" => [
+            "label" => "K Index",
+            "info" => "The K Index measures..."
+        ],
+        "aIndex" => [
+            "label" => "A Index",
+            "info" => "The A Index is..."
+        ],
+        "dstIndex" => [
+            "label" => "DST Index",
+            "info" => "The DST Index..."]
+    ];
 
     public function __construct($apiKey) {
         $this->apiKey = $apiKey;
@@ -148,6 +187,18 @@ class SpaceWeatherModel {
         ];
 
         return $dataArray;
+    }
+
+    public function getLocations() {
+        return self::VALID_LOCATIONS;
+    }
+
+    public function getAlerts() {
+        return self::ALERTS;
+    }
+
+    public function getIndices() {
+        return self::INDICES;
     }
 
 }

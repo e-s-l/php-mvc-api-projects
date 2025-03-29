@@ -11,29 +11,6 @@
 
     <?php
 
-    $alerts = [
-        "auroraAlert" => [
-            "label" => "Aurora Alert",
-            "info" => "An aurora alert..."
-        ],
-        "auroraOutlook" => [
-            "label" => "Aurora Outlook",
-            "info" => "An aurora outlook.."
-        ],
-        "auroraWatch" => [
-            "label" => "Aurora Watch",
-            "info" => "An aurora watch..."
-        ],
-        "magAlert" => [
-            "label" => "Mag Alert",
-            "info" => "A geomagnetic alert..."
-        ],
-        "magWarning" => [
-            "label" => "Mag Warning",
-            "info" => "A geomagnetic warning..."
-        ]
-    ];
-
     $hasAlerts = false;
     foreach ($alerts as $key => $alertName) {
         if (!empty($spaceWeatherData[$key])) {
@@ -81,7 +58,7 @@
                     <label for="location">Location:</label>
                     <select name="location" id="location">
                     <?php 
-                    foreach (SpaceWeatherController::VALID_LOCATIONS as $loc) {
+                    foreach ($validLocations as $loc) {
                             echo '<option value="' . $loc . '" ' . ($loc === $location ? 'selected' : '') . '>' . $loc . '</option>';
                     }
                     ?>
@@ -90,22 +67,6 @@
                 <button type="submit">Reload</button>
             </form>
         </div>
-
-        <?php
-            $indices = [
-                "kIndex" => [
-                    "label" => "K Index",
-                    "info" => "The K Index measures..."
-                ],
-                "aIndex" => [
-                    "label" => "A Index",
-                    "info" => "The A Index is..."
-                ],
-                "dstIndex" => [
-                    "label" => "DST Index",
-                    "info" => "The DST Index..."]
-            ];
-        ?>
 
         <div>
             <?php foreach ($indices as $key => $data): ?>
