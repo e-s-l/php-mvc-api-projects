@@ -8,16 +8,11 @@
 <body>
 
 <h2>Welcome.</h2>
+
 <form method="post">
-    <label for="city">Select city:</label>
-    <select name="city" id="city">
-        <option value="London">London</option>
-        <option value="Buenos Aires">Buenos Aires</option>
-        <option value="New York">New York</option>
-        <option value="Paris">Paris</option>
-    </select>
-    <br>
-    <input type="submit" value="Get Weather">
+    <label for="search_city">Enter City Name:</label>
+    <input type="text" name="search_city" id="search_city">
+    <input type="submit" value="Search Weather">
 </form>
 
 </body>

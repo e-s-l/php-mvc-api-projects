@@ -11,7 +11,7 @@ class WeatherController {
 
     public function handleRequest() {
 
-        $city = $_POST['city'] ?? null;
+        $city = $_POST['search_city'] ?? null;
 
         if (!empty($city)) {
             $weatherData = $this->model->getWeather($city);
