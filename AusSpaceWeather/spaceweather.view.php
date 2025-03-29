@@ -10,11 +10,8 @@
     <header>
         <h1>Australian Space Weather</h1>
     </header>
-
     <main>
-
         <?php
-
         $hasAlerts = false;
         foreach ($alerts as $key => $alertName) {
             if (!empty($spaceWeatherData[$key])) {
@@ -22,19 +19,15 @@
                 break;
             }
         }
-
         if ($hasAlerts): ?>
-
             <div>
                 <h2>Current Alerts</h2>
-
                 <?php foreach ($alerts as $key => $data): ?>
                     <?php if (!empty($spaceWeatherData[$key])): ?>
                         <div class="alert" onclick="openModal('<?php echo $key; ?>')">
                             <h3><?php echo $data['label']; ?></h3>
-                            <p><?php echo htmlspecialchars($spaceWeatherData[$key]) ?: 'NA'; ?></p>
+                            <p><?php echo htmlspecialchars($spaceWeatherData[$key]); ?></p>
                         </div>
-
                         <div id="modal-<?php echo $key; ?>" class="modal">
                             <div class="modal-content">
                                 <span class="close" onclick="closeModal('<?php echo $key; ?>')">&times;</span>
@@ -46,12 +39,9 @@
                     <?php endif; ?>
                 <?php endforeach; ?>
             </div>
-
         <?php endif; ?>
-
         <div>
             <h2>Indices</h2>
-
             <div class='settings'>
                 <form method="GET">
                     <div>
@@ -71,13 +61,11 @@
                     <button type="submit">Reload</button>
                 </form>
             </div>
-
             <div>
                 <?php foreach ($indices as $key => $data): ?>
-                    <?php if (isset($spaceWeatherData[$key])): ?>
                         <div class="index" onclick="openModal('<?php echo $key; ?>')">
                             <h3><?php echo $data['label']; ?></h3>
-                            <p><?php echo ($spaceWeatherData[$key] === "" || $spaceWeatherData[$key] === null) ? 'NA' : htmlspecialchars($spaceWeatherData[$key]); ?></p>
+                            <p><?php echo is_null($spaceWeatherData[$key]) ? 'NA' : $spaceWeatherData[$key]; ?></p>
                         </div>
                         <div id="modal-<?php echo $key; ?>" class="modal">
                             <div class="modal-content">
@@ -86,7 +74,6 @@
                                 <p><?php echo $data['info']; ?></p>
                             </div>
                         </div>
-                    <?php endif; ?>
                 <?php endforeach; ?>
             </div>
         </div>

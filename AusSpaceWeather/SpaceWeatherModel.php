@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+    ini_set('display_errors', 'On');
+
 class SpaceWeatherModel {
 
     private $apiKey;
@@ -47,11 +50,62 @@ class SpaceWeatherModel {
             "info" => "The DST Index..."]
     ];
 
+    /*
+    ********************
+    * public functions *
+    ********************
+    */
+
     public function __construct(string $apiKey) {
         $this->apiKey = $apiKey;
         $this->endPointRoot = 'https://sws-data.sws.bom.gov.au/api/v1/';
     }
 
+    /**
+     * Given an instatiated object, return the constants.
+     * (But note, can just use Class:Const)
+     */
+
+    public function getLocations() : array {
+        return self::VALID_LOCATIONS;
+    }
+
+    public function getAlerts() : array {
+        return self::ALERTS;
+    }
+
+    public function getIndices() : array {
+        return self::INDICES;
+    }
+
+    /**
+     * The primary public function.
+     * Construct a mixed data (ints, strings or nulls) array to pass to the view.
+     */
+    public function getSpaceWeatherData(string $date = "", string $location = "") : array {
+
+        $dataArray = [
+            'kIndex' => $this->getKIndex($date, $location),
+            'aIndex' => $this->getAIndex($date),
+            'dstIndex' => $this->getDstIndex($date),
+            'auroraAlert' => $this->getAlert(),
+            'auroraOutlook' => $this->getOutlook(),
+            'auroraWatch' => $this->getWatch(),
+            'magAlert' => $this->getMagAlert(),
+            'magWarning' => $this->getMagWarning()
+        ];
+        return $dataArray;
+    }
+
+    /*
+    *********************
+    * private functions *
+    *********************
+    */
+
+    /**
+     * Make the API requests.
+     */
     private function fetchData(string $endpoint, array $body) {
 
         $options = [
@@ -74,7 +128,7 @@ class SpaceWeatherModel {
         return isset($result['data']) ? $result['data'] : $result['errors'];
     }
 
-    private function getKIndex(string $date = "", string $location = "Australian region") {
+    private function getKIndex(string $date = "", string $location = "Australian region") : int|null {
 
         $endpoint = "get-k-index";
 
@@ -96,10 +150,10 @@ class SpaceWeatherModel {
         ];
 
         $result = $this->fetchData($endpoint, $body);
-        return $result[0]['index'] ?? null;
+        return isset($result[0]['index']) ? (int) $result[0]['index'] : null;
     }
 
-    private function getAIndex(string $date = "") {
+    private function getAIndex(string $date = "") : int|null {
 
         $endpoint = "get-a-index";
 
@@ -120,10 +174,10 @@ class SpaceWeatherModel {
             ]
         ];
         $result = $this->fetchData($endpoint, $body);
-        return $result[0][0]['index'] ?? null;
+        return isset($result[0][0]['index']) ? (int) $result[0][0]['index'] : null;
     }
 
-    private function getDstIndex(string $date = "") {
+    private function getDstIndex(string $date = "") : int|null {
         $endpoint = "get-dst-index";
         if ($date === date('Y-m-d')) {
             $start = "";
@@ -141,69 +195,43 @@ class SpaceWeatherModel {
             ]
         ];
         $result = $this->fetchData($endpoint, $body);
-        return $result[0][0]['index'] ?? null;
+        return isset($result[0][0]['index']) ? (int) $result[0][0]['index'] : null;
     }
 
-    private function getAlert() {
+    private function getAlert() : string|null {
         $endpoint = "get-aurora-alert";
         $body = ["api_key" => $this->apiKey];
         $result = $this->fetchData($endpoint, $body);
-        return $result[0] ?? null;
+        return isset($result[0]) ? (string) $result[0] : null;
     }
 
-    private function getOutlook() {
+    private function getOutlook() : string|null {
         $endpoint = "get-aurora-outlook";
         $body = ["api_key" => $this->apiKey];
         $result = $this->fetchData($endpoint, $body);
-        return $result[0] ?? null;
+        //return $result[0] ?? null;
+        return isset($result[0]) ? (string) $result[0] : null;
     }
 
-    private function getWatch() {
+    private function getWatch() : string|null {
         $endpoint = "get-aurora-watch";
         $body = ["api_key" => $this->apiKey];
         $result = $this->fetchData($endpoint, $body);
-        return $result[0] ?? null;
+        return isset($result[0]) ? (string) $result[0] : null;
     }
 
-    private function getMagAlert() {
+    private function getMagAlert() : string|null {
         $endpoint = "get-mag-alert";
         $body = ["api_key" => $this->apiKey];
         $result = $this->fetchData($endpoint, $body);
-        return $result[0] ?? null;
+        return isset($result[0]) ? (string) $result[0] : null;
     }
 
-    private function getMagWarning() {
+    private function getMagWarning() : string|null {
         $endpoint = "get-mag-warning";
         $body = ["api_key" => $this->apiKey];
         $result = $this->fetchData($endpoint, $body);
-        return $result[0] ?? null;
-    }
-
-    public function getSpaceWeatherData(string $date = "", string $location = "") : array {
-
-        $dataArray = [
-            'kIndex' => (string) $this->getKIndex($date, $location),
-            'aIndex' => (string) $this->getAIndex($date),
-            'dstIndex' => (string) $this->getDstIndex($date),
-            'auroraAlert' => (string) $this->getAlert(),
-            'auroraOutlook' => (string) $this->getOutlook(),
-            'auroraWatch' => (string) $this->getWatch(),
-            'magAlert' => (string) $this->getMagAlert(),
-            'magWarning' => (string) $this->getMagWarning()
-        ];
-        return $dataArray;
-    }
-
-    public function getLocations() : array {
-        return self::VALID_LOCATIONS;
-    }
-
-    public function getAlerts() : array {
-        return self::ALERTS;
-    }
-
-    public function getIndices() : array {
-        return self::INDICES;
+        return isset($result[0]) ? (string) $result[0] : null;
     }
 
 }

@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+    ini_set('display_errors', 'On');
+
 require_once __DIR__ .'/SpaceWeatherModel.php';
 
 class SpaceWeatherController {
@@ -10,6 +13,9 @@ class SpaceWeatherController {
         $this->model = new SpaceWeatherModel($apiKey);
     }
 
+    /**
+     * Return the view given the model for the requests.
+     */
     public function handleRequest() {
 
         $validLocations = $this->model->getLocations();
@@ -39,6 +45,9 @@ class SpaceWeatherController {
         }
 
         $spaceWeatherData = $this->model->getSpaceWeatherData($date, $location);
+        
+        //var_dump($spaceWeatherData);
+        //exit;
 
         include 'spaceweather.view.php';
     }
