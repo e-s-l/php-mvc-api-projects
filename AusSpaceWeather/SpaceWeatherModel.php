@@ -185,7 +185,6 @@ class SpaceWeatherModel {
             'magAlert' => (string) $this->getMagAlert(),
             'magWarning' => (string) $this->getMagWarning()
         ];
-
         return $dataArray;
     }
 
