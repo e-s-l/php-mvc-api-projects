@@ -15,9 +15,6 @@ require_once 'Utilities.php';
 
     <h2>Current Weather in <?php echo htmlspecialchars($weatherData['city']).', '.htmlspecialchars($weatherData['country']); ?>:</h2>
 
-    <h3>Location</h3>
-    <p><?php echo '('.htmlspecialchars($weatherData['latitude']).', '.htmlspecialchars($weatherData['longitude']).')'; ?></p>
-
     <h3>Temperature</h3>
     <p><?php echo htmlspecialchars($weatherData['temperature']['value']) . Utilities::displayTempUnits($weatherData['temperature']['unit']); ?></p>
     
@@ -32,6 +29,9 @@ require_once 'Utilities.php';
 
     <h3>Wind</h3>
     <p><?php echo htmlspecialchars($weatherData['wind_speed']['value']) . " " . htmlspecialchars($weatherData['wind_speed']['unit']).' '.htmlspecialchars($weatherData['wind_direction']['code']); ?></p>
+
+    <h3>Location</h3>
+    <p><?php echo '('.htmlspecialchars($weatherData['latitude']).', '.htmlspecialchars($weatherData['longitude']).')'; ?></p>
 
 <?php else: ?>
 

@@ -8,6 +8,8 @@ An exercise in PHP to use API calls, data processing & design patterns.
 
 - https://sws-data.sws.bom.gov.au/api-docs
 
+- https://www.sws.bom.gov.au/Geophysical/7/1#Dstmap
+
 - https://www.digitalocean.com/community/tutorials/how-to-use-web-apis-in-php-8-0
 
 ## The plan
