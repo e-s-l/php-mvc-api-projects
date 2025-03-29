@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+
 class SpaceWeatherModel {
 
     private $apiKey;
@@ -33,15 +36,6 @@ class SpaceWeatherModel {
 
     private function getKIndex($date = null, $location = "Australian region") {
         $endpoint = "get-k-index";
-
-        $validLocations = [
-            "Sydney", "Melbourne", "Perth", "Hobart", "Darwin", "Canberra", 
-            "Macquarie Island", "Casey", "Mawson", "Australian region"
-        ];
-    
-        if (!in_array($location, $validLocations)) {
-            return "Invalid location.";
-        }
 
         if ($date === date('Y-m-d')) {
             $start = "";
@@ -152,8 +146,6 @@ class SpaceWeatherModel {
             'magAlert' => (string) $this->getMagAlert(),
             'magWarning' => (string) $this->getMagWarning()
         ];
-
-        var_dump($dataArray);
 
         return $dataArray;
     }
