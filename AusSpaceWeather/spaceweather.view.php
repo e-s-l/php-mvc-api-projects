@@ -52,7 +52,7 @@
         <div>
             <h2>Indices</h2>
 
-            <div>
+            <div class='settings'>
                 <form method="GET">
                     <div>
                         <label for="date">Date:</label>
@@ -79,7 +79,6 @@
                             <h3><?php echo $data['label']; ?></h3>
                             <p><?php echo ($spaceWeatherData[$key] === "" || $spaceWeatherData[$key] === null) ? 'NA' : htmlspecialchars($spaceWeatherData[$key]); ?></p>
                         </div>
-
                         <div id="modal-<?php echo $key; ?>" class="modal">
                             <div class="modal-content">
                                 <span class="close" onclick="closeModal('<?php echo $key; ?>')">&times;</span>
@@ -87,7 +86,6 @@
                                 <p><?php echo $data['info']; ?></p>
                             </div>
                         </div>
-
                     <?php endif; ?>
                 <?php endforeach; ?>
             </div>

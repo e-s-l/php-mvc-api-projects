@@ -47,12 +47,13 @@ class SpaceWeatherModel {
             "info" => "The DST Index..."]
     ];
 
-    public function __construct($apiKey) {
+    public function __construct(string $apiKey) {
         $this->apiKey = $apiKey;
         $this->endPointRoot = 'https://sws-data.sws.bom.gov.au/api/v1/';
     }
 
-    private function fetchData($endpoint, $body) {
+    private function fetchData(string $endpoint, array $body) {
+
         $options = [
             'http' => [
                 'method' => 'POST',
@@ -73,7 +74,8 @@ class SpaceWeatherModel {
         return isset($result['data']) ? $result['data'] : $result['errors'];
     }
 
-    private function getKIndex($date = null, $location = "Australian region") {
+    private function getKIndex(string $date = "", string $location = "Australian region") {
+
         $endpoint = "get-k-index";
 
         if ($date === date('Y-m-d')) {
@@ -83,6 +85,7 @@ class SpaceWeatherModel {
             $start = $date . ' 00:00:00';
             $end = $date . ' 24:00:00';
         }
+
         $body = [
             "api_key" => $this->apiKey,
             "options" => [
@@ -91,11 +94,13 @@ class SpaceWeatherModel {
                 "end" => $end
             ]
         ];
+
         $result = $this->fetchData($endpoint, $body);
         return $result[0]['index'] ?? null;
     }
 
-    private function getAIndex($date = null) {
+    private function getAIndex(string $date = "") {
+
         $endpoint = "get-a-index";
 
         if ($date === date('Y-m-d')) {
@@ -118,7 +123,7 @@ class SpaceWeatherModel {
         return $result[0][0]['index'] ?? null;
     }
 
-    private function getDstIndex($date = null) {
+    private function getDstIndex(string $date = "") {
         $endpoint = "get-dst-index";
         if ($date === date('Y-m-d')) {
             $start = "";
@@ -174,7 +179,8 @@ class SpaceWeatherModel {
         return $result[0] ?? null;
     }
 
-    public function getSpaceWeatherData($date = "", $location = "") {
+    public function getSpaceWeatherData(string $date = "", string $location = "") : array {
+
         $dataArray = [
             'kIndex' => (string) $this->getKIndex($date, $location),
             'aIndex' => (string) $this->getAIndex($date),
@@ -188,15 +194,15 @@ class SpaceWeatherModel {
         return $dataArray;
     }
 
-    public function getLocations() {
+    public function getLocations() : array {
         return self::VALID_LOCATIONS;
     }
 
-    public function getAlerts() {
+    public function getAlerts() : array {
         return self::ALERTS;
     }
 
-    public function getIndices() {
+    public function getIndices() : array {
         return self::INDICES;
     }
 
