@@ -1,8 +1,5 @@
 <?php
 
-error_reporting(E_ALL);
-    ini_set('display_errors', 'On');
-
 class SpaceWeatherModel {
 
     private $apiKey;
@@ -150,7 +147,7 @@ class SpaceWeatherModel {
         ];
 
         $result = $this->fetchData($endpoint, $body);
-        return isset($result[0]['index']) ? (int) $result[0]['index'] : null;
+        return isset($result[0]['index']) && is_numeric($result[0]['index']) ? $result[0]['index'] : null;
     }
 
     private function getAIndex(string $date = "") : int|null {
@@ -174,7 +171,7 @@ class SpaceWeatherModel {
             ]
         ];
         $result = $this->fetchData($endpoint, $body);
-        return isset($result[0][0]['index']) ? (int) $result[0][0]['index'] : null;
+        return isset($result[0][0]['index']) && is_numeric($result[0][0]['index']) ? $result[0][0]['index'] : null;
     }
 
     private function getDstIndex(string $date = "") : int|null {
@@ -195,44 +192,45 @@ class SpaceWeatherModel {
             ]
         ];
         $result = $this->fetchData($endpoint, $body);
-        return isset($result[0][0]['index']) ? (int) $result[0][0]['index'] : null;
+        return isset($result[0][0]['index']) && is_numeric($result[0][0]['index']) ? $result[0][0]['index'] : null;
     }
 
-    private function getAlert() : string|null {
+    /****************************************/
+
+    private function getAlert() : array|null {
         $endpoint = "get-aurora-alert";
         $body = ["api_key" => $this->apiKey];
         $result = $this->fetchData($endpoint, $body);
-        return isset($result[0]) ? (string) $result[0] : null;
+        return isset($result[0]) ? $result[0] : null;
     }
 
-    private function getOutlook() : string|null {
+    private function getOutlook() : array|null {
         $endpoint = "get-aurora-outlook";
         $body = ["api_key" => $this->apiKey];
         $result = $this->fetchData($endpoint, $body);
         //return $result[0] ?? null;
-        return isset($result[0]) ? (string) $result[0] : null;
+        return isset($result[0]) ? $result[0] : null;
     }
 
-    private function getWatch() : string|null {
+    private function getWatch() : array|null {
         $endpoint = "get-aurora-watch";
         $body = ["api_key" => $this->apiKey];
         $result = $this->fetchData($endpoint, $body);
-        return isset($result[0]) ? (string) $result[0] : null;
+        return isset($result[0]) ? $result[0] : null;
     }
 
-    private function getMagAlert() : string|null {
+    private function getMagAlert() : array|null {
         $endpoint = "get-mag-alert";
         $body = ["api_key" => $this->apiKey];
         $result = $this->fetchData($endpoint, $body);
-        return isset($result[0]) ? (string) $result[0] : null;
+        return isset($result[0]) ? $result[0] : null;
     }
 
-    private function getMagWarning() : string|null {
+    private function getMagWarning() : array|null {
         $endpoint = "get-mag-warning";
         $body = ["api_key" => $this->apiKey];
         $result = $this->fetchData($endpoint, $body);
-        return isset($result[0]) ? (string) $result[0] : null;
+        return isset($result[0]) ? $result[0] : null;
     }
-
 }
 ?>

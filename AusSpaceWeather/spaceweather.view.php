@@ -20,18 +20,34 @@
             }
         }
         if ($hasAlerts): ?>
-            <div>
+            <div class='alert-container'>
                 <h2>Current Alerts</h2>
                 <?php foreach ($alerts as $key => $data): ?>
                     <?php if (!empty($spaceWeatherData[$key])): ?>
                         <div class="alert" onclick="openModal('<?php echo $key; ?>')">
                             <h3><?php echo $data['label']; ?></h3>
-                            <p><?php echo htmlspecialchars($spaceWeatherData[$key]); ?></p>
+                            <p><?php echo ucwords(htmlspecialchars($spaceWeatherData[$key]['cause']) ?? 'Unknown'); ?></p>
+                            <br>
+                            <p class='more-info'>Click for more info.</p>
                         </div>
                         <div id="modal-<?php echo $key; ?>" class="modal">
                             <div class="modal-content">
                                 <span class="close" onclick="closeModal('<?php echo $key; ?>')">&times;</span>
                                 <h3><?php echo $data['label']; ?></h3>
+                                    <p><strong>Issue Time:</strong> <?php echo htmlspecialchars($spaceWeatherData[$key]['issue_time'] ?? 'Unknown'); ?></p>
+                                    <p><strong>Start Date:</strong> <?php echo htmlspecialchars($spaceWeatherData[$key]['start_date'] ?? 'Unknown'); ?></p>
+                                    <p><strong>End Date:</strong> <?php echo htmlspecialchars($spaceWeatherData[$key]['end_date'] ?? 'Unknown'); ?></p>
+                                    <p><strong>Cause:</strong> <?php echo ucwords(htmlspecialchars($spaceWeatherData[$key]['cause']) ?? 'Unknown'); ?></p>
+                                    <?php if (!empty($spaceWeatherData[$key]['activity'])): ?>
+                                        <h4>Activity Forecast:</h4>
+                                        <ul>
+                                            <?php foreach ($spaceWeatherData[$key]['activity'] as $activity): ?>
+                                                <li><?php echo htmlspecialchars($activity['date'] . ': ' . $activity['forecast']); ?></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php endif; ?>
+                                <br>
+                                <h4>About:</h4>
                                 <p><?php echo $data['info']; ?></p>
                             </div>
                         </div>

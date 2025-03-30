@@ -1,0 +1,105 @@
+/* CSS reset */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+/* main sections */
+
+body {
+}
+
+.content {
+    margin: 2rem;
+}
+
+header {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0,0,0,0.5);
+}
+
+.weather-content {
+    padding: 2rem;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+    border-top: 1px solid rgba(0,0,0,0.5);
+    text-align: center;
+    margin-right: 2rem;
+}
+
+/* headings */
+
+h2 {
+    margin: 1rem;
+    margin-bottom: 0rem;
+}
+
+/* map */
+
+.location-info {
+    display: none;
+}
+
+
+.display {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+
+.weather-content {
+    flex: 1;
+}
+
+.location-map {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    margin-top: 1rem;
+}
+
+.map-container {
+    margin: 1rem;
+    border: 1px solid rgba(0,0,0,0.5);
+}
+
+#map { 
+    height: 512px; 
+    width: 512px;
+    margin: auto;
+    padding: 2rem;
+}
+
+/* form */
+
+form {
+    padding: 1rem;
+}
+
+/* other */
+
+.weather-content p {
+    margin-top: 0.4rem;
+}
+
+.temperature, .atmospherics, .weather, .time, .sun {
+    padding-top: 1rem;
+}
+
+/* mobile */

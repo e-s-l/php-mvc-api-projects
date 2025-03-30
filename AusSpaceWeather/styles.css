@@ -29,7 +29,7 @@ main {
 
 /* the components */
 
-.index, .alert {
+.index {
     display:flex;
     justify-content: space-between;
     align-items: center;
@@ -38,6 +38,27 @@ main {
     width: 33%;
     padding: 2rem;
     cursor: pointer;
+}
+
+/* alerts */
+
+.alert-container li {
+    list-style: inside square;
+}
+
+.alert {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 1rem auto;
+    border: 1px solid rgba(0,0,0,0.5);
+    width: 33%;
+    padding: 2rem;
+    cursor: pointer;
+}
+
+.alert-container .more-info {
+    font-size: 0.8rem;
 }
 
 /* settings */

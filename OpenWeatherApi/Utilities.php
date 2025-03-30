@@ -2,7 +2,7 @@
 
 class Utilities {
 
-    public static function displayTempUnits($unit) {
+    public static function displayTempUnits(string $unit) : string {
         $units = [
             'celsius' => '°C',
             'fahrenheit' => '°F',

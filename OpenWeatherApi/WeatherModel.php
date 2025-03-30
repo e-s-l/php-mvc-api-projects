@@ -6,23 +6,35 @@ error_reporting(E_ALL);
 class WeatherModel {
     private $apiKey;
 
-    public function __construct($apiKey) {
+    public function __construct(string $apiKey) {
         $this->apiKey = $apiKey;
     }
 
-    private function getCityTime($timezone) {
+    /**
+     * Given a utc time convert this to the time in the cities location.
+     */
+    private function getCityTime(string $time, string $timezone) : string {
         $timezoneOffset = (int) $timezone;
-        $utcTime = new DateTime('now', new DateTimeZone('UTC'));
-        $localTime = clone $utcTime;
+
+        $localTime = DateTime::createFromFormat('Y-m-d\TH:i:s', $time);
+
+        if (!$localTime) {
+            throw new Exception("Invalid time format.");
+        }
+
         $localTime->modify("{$timezoneOffset} seconds");
         return $localTime->format('Y-m-d H:i');
     }
 
-    // define a function convertToCityTime
-    // which can then pass current time to get the above
-    // but also the UTC sunset/sunrise
- 
-    public function getWeather($city) {
+    /**
+     * Calculate the current local time in the city.
+     */
+    private function getCurrentCityTime(string $timezone) : string {
+        $utcTime = new DateTime('now', new DateTimeZone('UTC'));
+        return $this->getCityTime($utcTime->format('Y-m-d\TH:i:s'), $timezone);
+    }
+
+    public function getWeather(string $city) : array|null {
 
         $url = 'https://api.openweathermap.org/data/2.5/weather?mode=xml&units=metric&q='.urlencode($city).'&appid='.$this->apiKey;
 
@@ -43,11 +55,22 @@ class WeatherModel {
             return [
                 'city' => (string) $xml->city['name'],
                 'country' => (string) $xml->city->country,
-                'latitude' => (string) $xml->city->coord['lat'],
-                'longitude' => (string) $xml->city->coord['lon'],
-                'local_time' => $this->getCityTime($xml->city->timezone),
-                'sun_rise' => (string) $xml->city->sun['rise'],
-                'sun_set' => (string) $xml->city->sun['set'],
+                'latitude' => number_format((float)$xml->city->coord['lat'], 3),
+                'longitude' => number_format((float)$xml->city->coord['lon'], 3),
+                'time' => [
+                    'zone' => $xml->city->timezone,
+                    'local' => $this->getCurrentCityTime($xml->city->timezone),
+                ],
+                'sun' => [
+                    'rise' => [
+                        'local' => explode(' ',$this->getCityTime($xml->city->sun['rise'], $xml->city->timezone))[1],
+                        'utc' => (string) $xml->city->sun['rise']
+                    ],
+                    'set' => [
+                        'local' => explode(' ', $this->getCityTime($xml->city->sun['set'], $xml->city->timezone))[1],
+                        'utc' => (string) $xml->city->sun['set']
+                    ]
+                ],
                 'temperature' => [
                     'value' => (string) $xml->temperature['value'],
                     'max' => (string) $xml->temperature['max'],
@@ -69,7 +92,7 @@ class WeatherModel {
                 'wind_speed' => [
                     'value' => (string) $xml->wind->speed['value'],
                     'unit' => (string) $xml->wind->speed['unit'],
-                    'description' => (string) $xml->wind->speed['name']
+                    'description' => ucwords((string) $xml->wind->speed['name'])
                 ],
                 'wind_direction' => [
                     'value' => (string) $xml->wind->direction['value'],
@@ -77,12 +100,12 @@ class WeatherModel {
                 ],
                 'clouds' => [
                     'value' => (string) $xml->clouds['value'],
-                    'description' => (string) $xml->clouds['name']
+                    'description' => ucwords((string) $xml->clouds['name'])
                 ]
             ];
         }
         catch (Throwable $e) {
-            // echo "Error: " . $e->getMessage();
+            echo "Error: " . $e->getMessage();
             return null;
         }
     }
