@@ -10,7 +10,7 @@ class SpaceWeatherModel {
         "Macquarie Island", "Casey", "Mawson", "Australian region"
     ];
 
-    const ALERTS = [
+    const POSSIBLE_ALERTS = [
         "auroraAlert" => [
             "label" => "Aurora Alert",
             "info" => "An aurora alert..."
@@ -33,7 +33,7 @@ class SpaceWeatherModel {
         ]
     ];
 
-    const INDICES = [
+    const POSSIBLE_INDICES = [
         "kIndex" => [
             "label" => "K Index",
             "info" => "The K Index measures..."
@@ -63,16 +63,16 @@ class SpaceWeatherModel {
      * (But note, can just use Class:Const)
      */
 
-    public function getLocations() : array {
+    public function listValidLocations() : array {
         return self::VALID_LOCATIONS;
     }
 
-    public function getAlerts() : array {
-        return self::ALERTS;
+    public function listPossibleAlerts() : array {
+        return self::POSSIBLE_ALERTS;
     }
 
-    public function getIndices() : array {
-        return self::INDICES;
+    public function listPossibleIndices() : array {
+        return self::POSSIBLE_INDICES;
     }
 
     /**

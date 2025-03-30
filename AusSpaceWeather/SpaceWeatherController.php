@@ -10,14 +10,25 @@ class SpaceWeatherController {
         $this->model = new SpaceWeatherModel($apiKey);
     }
 
+    private function preprocessData(array $data) : array {
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $data[$key] = $this->preprocessData($value);
+            } else {
+                $data[$key] = is_string($value) ? ucwords(htmlspecialchars($value, ENT_QUOTES, 'UTF-8')) : $value;
+            }
+        }
+        return $data;
+    }
+
     /**
      * Return the view given the model for the requests.
      */
     public function handleRequest() {
 
-        $validLocations = $this->model->getLocations();
-        $indices = $this->model->getIndices();
-        $alerts = $this->model->getAlerts();
+        $validLocations = $this->model->listValidLocations();
+        //$all_indices = $this->model->listPossibleIndices();
+        //$all_alerts = $this->model->listPossibleAlerts();
 
         if (isset($_GET['date'])) {
             $date = $_GET['date'];
@@ -44,7 +55,15 @@ class SpaceWeatherController {
         $spaceWeatherData = $this->model->getSpaceWeatherData($date, $location);
         
         //var_dump($spaceWeatherData);
-        //exit;
+        
+        $viewData = [
+            'date' => $date,
+            'location' => $location,
+            'locations' => $validLocations,
+            'indices' => $this->model->listPossibleIndices(),
+            'alerts' => $this->model->listPossibleAlerts(),
+            'data' => $this->preprocessData($spaceWeatherData)
+        ];
 
         include 'spaceweather.view.php';
     }

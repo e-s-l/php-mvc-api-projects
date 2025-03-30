@@ -18,10 +18,8 @@ require_once 'Utilities.php';
         <header><h1>Weather</h1></header>
         <main>
         <?php if ($weatherData): ?>
-
             <div class='display'>
                 <h2 class='city'><?php echo htmlspecialchars($weatherData['city']).', '.htmlspecialchars($weatherData['country']); ?></h2>
-
                 <div class='weather-content'>
                     <div class='temperature'>
                         <p><strong>Temperature:</strong> <?php echo htmlspecialchars($weatherData['temperature']['value']) . Utilities::displayTempUnits($weatherData['temperature']['unit']); ?></p>
@@ -52,6 +50,12 @@ require_once 'Utilities.php';
                         <p><strong>Sunrise:</strong> <?php echo htmlspecialchars($weatherData['sun']['rise']['local']); ?></p>
                         <p><strong>Sunset:</strong> <?php echo htmlspecialchars($weatherData['sun']['set']['local']); ?></p>
                     </div>
+                    <br>
+                    <div>
+                        <label>
+                            <input type="checkbox" id="toggle-map" checked> Show Map
+                        </label>
+                    </div>
                 </div>
                 <div class='location-map'>
                     <p class='location-info'>
@@ -61,14 +65,8 @@ require_once 'Utilities.php';
                         <div id="map">
                         </div>
                     </div>
-                    <div>
-                        <label>
-                            <input type="checkbox" id="toggle-map" checked> Show Map
-                        </label>
-                    </div>
                 </div>
             </div>
-
         <?php else: ?>
             <h2>Sorry.</h2>
             <p>Weather data could not be retrieved.</p>
